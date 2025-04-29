@@ -1,23 +1,18 @@
 import { AuthLayout } from "@/Layouts";
-import { emaiilSchema } from "@/Schemas";
+import { passcodeSchema } from "@/Schemas";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type EmailSchema = z.infer<typeof emaiilSchema>;
-const Email = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<EmailSchema>({
-    resolver: zodResolver(emaiilSchema),
-  });
-
-  const onSubmit = (data: EmailSchema) => {
-    console.log(data);
-  }
-
+type PasscodeSchema = z.infer<typeof passcodeSchema>;
+const Passcode = () => {
+        const {register, handleSubmit, formState:{errors}} = useForm<PasscodeSchema>({
+            resolver: zodResolver(passcodeSchema)
+        })
+    
+        const onSubmit = (data: PasscodeSchema) => {
+            console.log(data.passcode)
+        }
   return (
     <>
       <AuthLayout>
@@ -25,25 +20,27 @@ const Email = () => {
           <div className="min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-200px)] flex md:justify-center justify-between pb-20 pt-6 flex-col md:max-w-[400px] gap-4 w-full mx-auto">
             <div className="space-y-4">
               <div className="border-b border-line pb-4">
-                <h3 className="text-xl font-medium font-sora">
-                  Continue with e-mail address
-                </h3>
+                <h3 className="text-xl font-medium font-sora">Welcome back, Gift</h3>
                 <p className="text-muted text-sm">
-                  An email address is required to identify and authenticate you.
+                  Enter your passcode to continue.
                 </p>
+                <p className="text-muted text-sm">
+                  Not you? <span className="font-sora font-medium text-main">Logout</span>
+                </p>
+                
               </div>
-              <label htmlFor="email" className="text-xs text-muted">
-                E-mail Address <span className="text-red-500">*</span>
+              <label htmlFor="passcode" className="text-xs text-muted">
+                Passcode <span className="text-red-500">*</span>
               </label>
               <div>
                 <input
                   type="text"
-                  placeholder="e.g scorpion@gmail.com"
+                  placeholder="e.g 123456"
                   className="input w-full"
-                  {...register("email")}
+                  {...register("passcode")}
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                {errors.passcode && (
+                  <p className="text-red-500 text-xs mt-1">{errors.passcode.message}</p>
                 )}
               </div>
             </div>
@@ -56,9 +53,10 @@ const Email = () => {
             </button>
           </div>
         </form>
+
       </AuthLayout>
     </>
   );
 };
 
-export default Email;
+export default Passcode;

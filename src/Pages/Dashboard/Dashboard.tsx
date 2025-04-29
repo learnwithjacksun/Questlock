@@ -1,8 +1,14 @@
+import { ItemList } from "@/Components/Dashboard";
+import { DashboardLayout } from "@/Layouts";
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
-  )
-}
+    <>
+      <DashboardLayout>
+        <ItemList />
+      </DashboardLayout>
+    </>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

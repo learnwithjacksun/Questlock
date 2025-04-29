@@ -2,7 +2,8 @@ import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import { Home } from '@/Pages/Main'
 import { ScrollToTop } from '@/Components/UI'
-import { Email, OTP } from './Pages/Auth'
+import { Email, OTP, Passcode } from './Pages/Auth'
+import { Dashboard } from './Pages/Dashboard'
 const App = () => {
   return (
     <>
@@ -12,6 +13,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/verify" element={<OTP />} />
         <Route path="/register" element={<Email />} />
+        <Route path="/passcode" element={<Passcode />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </>
   )

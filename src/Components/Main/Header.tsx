@@ -9,7 +9,7 @@ const Header = () => {
           <div className="center h-9 w-9 bg-primary rounded-md text-white dark:text-[#121212]">
             <Lock size={22} />
           </div>
-          <span className="font-sora text-xl font-medium">QuestLock</span>
+          <span className="font-sora text-lg font-medium">QuestLock</span>
         </a>
 
         <ThemeToggle />

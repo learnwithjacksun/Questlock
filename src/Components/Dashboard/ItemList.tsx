@@ -2,13 +2,19 @@ import { items } from "@/Constants/data";
 import { ChevronRight } from "lucide-react";
 import { Search } from "../UI";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ItemList = () => {
+    const navigate = useNavigate();
   const [search, setSearch] = useState<string>("");
 
   const filteredItems = items.filter((item) => {
     return item.title.toLowerCase().includes(search.toLowerCase());
   });
+
+  const handleItemClick = (id: string) => {
+    navigate(`/details/?id=${id}`);
+    }
   return (
     <>
       <div className="space-y-4 mt-4">
@@ -17,6 +23,7 @@ const ItemList = () => {
           {filteredItems.map((item) => (
             <div
               key={item.id}
+              onClick={() => handleItemClick(item.id)}
               className="flex items-center justify-between border border-line bg-gradient-to-r dark:from-secondary to-transparent p-4 rounded-lg shadow-sm shadow-purple-500/10 hover:shadow-xl transition-all duration-300 ease-in-out cursor-pointer"
             >
               <div>

@@ -5,7 +5,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --primary: #121212;
+  --primary: #212121;
   --secondary: #f9f9f9;
   --background: #fefefe;
   --foreground: #f9f9f9;
@@ -58,11 +58,11 @@ html {
 
 button,
 .btn {
-  @apply text-sm cursor-pointer font-semibold font-sora flex items-center justify-center gap-2 disabled:opacity-50;
+  @apply cursor-pointer font-semibold font-sora flex items-center justify-center gap-2 disabled:opacity-50;
 }
 
 .btn-primary {
-  @apply bg-primary text-white dark:text-black;
+  @apply bg-primary text-white dark:text-[#212121];
 }
 
 .input {

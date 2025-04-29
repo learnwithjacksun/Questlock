@@ -3,7 +3,7 @@ import { Toaster } from 'sonner'
 import { Home } from '@/Pages/Main'
 import { ScrollToTop } from '@/Components/UI'
 import { Email, OTP, Passcode } from './Pages/Auth'
-import { Dashboard } from './Pages/Dashboard'
+import { Dashboard, ItemDetails } from './Pages/Dashboard'
 const App = () => {
   return (
     <>
@@ -15,6 +15,7 @@ const App = () => {
         <Route path="/register" element={<Email />} />
         <Route path="/passcode" element={<Passcode />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/details" element={<ItemDetails/>} />
       </Routes>
     </>
   )

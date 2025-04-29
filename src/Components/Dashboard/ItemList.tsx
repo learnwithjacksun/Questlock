@@ -26,8 +26,8 @@ const ItemList = () => {
               onClick={() => handleItemClick(item.id)}
               className="flex items-center justify-between border border-line bg-gradient-to-r dark:from-secondary to-transparent p-4 rounded-lg shadow-sm shadow-purple-500/10 hover:shadow-xl transition-all duration-300 ease-in-out cursor-pointer"
             >
-              <div>
-                <h4 className="">{item.title}</h4>
+              <div className="space-y-1">
+                <h4 className="font-semibold">{item.title}</h4>
                 <p className="text-muted text-sm">
                   Number of items:
                   <span className="font-sora text-purple-500 font-medium">

@@ -11,7 +11,7 @@ const Home = () => {
           <span className="bg-secondary p-2 px-3 rounded-full border border-line text-muted text-sm">
            🔐 Secure, Simple, Portable
           </span>
-          <h1 className="text-4xl md:text-6xl mt-4 font-sora font-bold bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
+          <h1 className="text-4xl capitalize inline-flex md:text-6xl mt-4 font-sora font-bold bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
             Your private vault for sensitive information
           </h1>
 

@@ -25,8 +25,8 @@ const Email = () => {
           <div className="min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-200px)] flex md:justify-center justify-between pb-20 pt-6 flex-col md:max-w-[400px] gap-4 w-full mx-auto">
             <div className="space-y-4">
               <div className="border-b border-line pb-4">
-                <h3 className="text-2xl font-bold font-sora">
-                  Continue with e-mail address
+                <h3 className="text-2xl font-bold font-sora bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
+                  Continue with E-mail Address
                 </h3>
                 <p className="text-muted text-sm">
                   An email address is required to identify and authenticate you.

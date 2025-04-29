@@ -1,8 +1,7 @@
-import { Modal } from "@/Components/UI";
+import { Delete, New, Decrypt, DeleteVault } from "@/Components/Dashboard";
 import { items } from "@/Constants/data";
 import { DashboardLayout } from "@/Layouts";
-import { AnimatePresence } from "framer-motion";
-import { Trash2, X } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 
@@ -21,6 +20,9 @@ type Item = {
 type ModalState = {
   decrypt: boolean;
   delete: boolean;
+  new: boolean;
+  edit: boolean;
+  deleteVault: boolean;
 };
 
 const ItemDetails = () => {
@@ -31,6 +33,9 @@ const ItemDetails = () => {
   const [isOpen, setIsOpen] = useState<ModalState>({
     decrypt: false,
     delete: false,
+    new: false,
+    edit: false,
+    deleteVault: false,
   });
 
   const [data, setData] = useState<ItemValue>({
@@ -68,14 +73,14 @@ const ItemDetails = () => {
             >
               <div>
                 <h4 className="text-muted text-sm">{value.key}</h4>
-                <p className="text-sm font-bold">{value.value}</p>
+                <p className="text-sm font-bold line-clamp-1">{value.value}</p>
               </div>
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={() => toggleModal("decrypt", value)}
                   className="btn-primary text-xs h-8 px-4 rounded-md"
                 >
-                  Decrypt Data
+                  Decrypt/ Copy
                 </button>
                 <button
                   onClick={() => toggleModal("delete", value)}
@@ -87,71 +92,26 @@ const ItemDetails = () => {
             </div>
           ))}
         </div>
+        <div className="flex items-center gap-4 mt-6 md:justify-center">
+          <button
+            onClick={() => setIsOpen({ ...isOpen, new: true })}
+            className="bg-purple-700 text-xs text-white dark:text-main h-10 px-4 btn rounded-md cursor-pointer"
+          >
+            <Plus size={16} /> Add New
+          </button>
+          <button
+            onClick={() => setIsOpen({ ...isOpen, deleteVault: true })}
+            className="border border-red-500 text-xs text-red-500 dark:text-main h-10 px-4 btn rounded-md bg-red-500/10"
+          >
+            <Trash2 size={16} className="text-red-600" /> Delete Vault
+          </button>
+        </div>
       </DashboardLayout>
 
-      <AnimatePresence>
-        {isOpen.decrypt && (
-          <Modal
-            isOpen={isOpen.decrypt}
-            onClose={() => setIsOpen({ ...isOpen, decrypt: false })}
-            title="Decrypt Data"
-          >
-            <div>
-              <div className="space-y-2">
-                <p className="text-muted">
-                  Do you wish to decrypt the value of this item?
-                </p>
-                <div className="border border-line rounded-md space-y-1">
-                  <p className="text-xs p-2">{data.key}</p>
-                  <p className="bg-foreground text-sm p-2">{data.value}</p>
-                </div>
-              </div>
-              <div className="border-t border-line pt-4 mt-4 flex items-center gap-4">
-                <button className="btn-primary text-xs h-10 px-4 rounded-md">
-                  Decrypt Data
-                </button>
-                <button
-                  onClick={() => setIsOpen({ ...isOpen, decrypt: false })}
-                  className="border border-line text-xs h-10 px-4 rounded-md"
-                >
-                  <X size={16} /> Cancel
-                </button>
-              </div>
-            </div>
-          </Modal>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isOpen.delete && (
-          <Modal
-            isOpen={isOpen.delete}
-            onClose={() => setIsOpen({ ...isOpen, delete: false })}
-            title="Delete Data"
-          >
-            <div className="space-y-2">
-              <p className="text-muted">
-                Are you sure you want to delete this item?
-              </p>
-              <div className="border border-line rounded-md space-y-1">
-                <p className="text-xs p-2">{data.key}</p>
-                <p className="bg-foreground text-sm p-2">{data.value}</p>
-              </div>
-            </div>
-            <div className="border-t border-line pt-4 mt-4 flex items-center gap-4">
-              <button className="btn-primary text-xs h-10 px-4 rounded-md">
-                Delete Data
-              </button>
-              <button
-                onClick={() => setIsOpen({ ...isOpen, delete: false })}
-                className="border border-line text-xs h-10 px-4 rounded-md"
-              >
-                <X size={16} /> Cancel
-              </button>
-            </div>
-          </Modal>
-        )}
-      </AnimatePresence>
+      <Decrypt isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
+      <Delete isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
+      <New isOpen={isOpen} setIsOpen={setIsOpen} />
+      <DeleteVault isOpen={isOpen} setIsOpen={setIsOpen} id={item.id} />
     </>
   );
 };

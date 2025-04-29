@@ -8,7 +8,7 @@ interface DashboardLayouProps {
 const DashboardLayout = ({ children }: DashboardLayouProps) => {
   return (
     <>
-      <div className="relative">
+      <div>
         <Header />
         <main className="layout pb-20">{children}</main>
       

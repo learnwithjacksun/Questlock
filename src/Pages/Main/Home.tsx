@@ -9,7 +9,7 @@ const Home = () => {
       <main className="min-h-[calc(100vh-80px)] flex md:justify-center justify-between py-10 flex-col layout">
         <div>
           <span className="bg-secondary p-2 px-3 rounded-full border border-line text-muted text-sm">
-            Secure, Simple, Portable
+           🔐 Secure, Simple, Portable
           </span>
           <h1 className="text-3xl md:text-6xl mt-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
             Your private vault for sensitive information

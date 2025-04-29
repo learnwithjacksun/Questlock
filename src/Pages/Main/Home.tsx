@@ -36,14 +36,14 @@ const Home = () => {
         </div>
         <div className="flex flex-col gap-4 md:flex-row items-center mt-10 ">
           <Link
-            to="/register"
-            className="btn btn-primary w-full md:w-[200px] p-3 rounded-md"
+            to="/auth"
+            className="btn btn-primary text-sm w-full md:w-[200px] p-3 rounded-md"
           >
             Create a new Vault
           </Link>
           <Link
-            to={"/login"}
-            className="btn border border-line w-full md:w-[200px] p-3 rounded-md"
+            to={"/passcode"}
+            className="btn text-sm border border-line w-full md:w-[200px] p-3 rounded-md"
           >
             Access Vault
           </Link>

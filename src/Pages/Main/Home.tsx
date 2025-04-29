@@ -1,49 +1,56 @@
-import { useCountStore } from "@/Stores";
-import { ThemeToggle } from "@/Components/UI";
-import { ActionButtons, Libraries } from "@/Components/Main";
-import { Github } from "lucide-react";
-
+import { Footer, Header } from "@/Components/Main";
+import { CircleCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { count } = useCountStore();
-
   return (
-    <div className="layout relative flex flex-col gap-2 min-h-[100dvh]">
-      <header className="w-full h-[60px] flex justify-between items-center">
-        <ThemeToggle />
-        <a
-          href="https://github.com/learnwithjacksun/jacksun-react-template"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-primary px-4 py-2 rounded-full gap-2"
-        >
-          <Github size={20} />
-          <span>Use Template</span>
-        </a>
-      </header>
-      <div className="center flex flex-col gap-4 text-center border-b border-line py-7">
-        <div className="center gap-2">
-          <img
-            src="/react.svg"
-            alt="logo"
-            width={80}
-            height={80}
-            className="hover:rotate-120 transition-all duration-300"
-          />
-          <div className="h-[80px] w-[80px] bg-secondary rounded-xl border border-line text-4xl font-sora font-bold flex items-center justify-center">{count}</div>
-        </div>
+    <>
+      <Header />
+      <main className="min-h-[calc(100vh-60px)] flex md:justify-center justify-between py-10 flex-col dark:bg-dark dark:text-white layout">
         <div>
-          <h1 className="bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-purple-500 text-4xl md:text-5xl font-sora font-bold">Jacksun React Template </h1>
-          <p className="text-muted">
-            A template for building a React app with Tailwind CSS and TypeScript
-          </p>
+          <span className="bg-secondary p-2 px-3 rounded-full border border-line text-muted text-sm">
+            Secure, Simple, Portable
+          </span>
+          <h1 className="text-3xl md:text-6xl mt-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
+            Your private vault for sensitive information
+          </h1>
+
+          <ul className="text-left text-sm mt-4 space-y-2">
+            <li className="flex items-center gap-2">
+              <CircleCheck size={20} className="text-green-600" />
+              Store NIN, BVN,passwords, etc.
+            </li>
+            <li className="flex items-center gap-2">
+              <CircleCheck size={20} className="text-green-600" />
+              Protected by end-to-end encryption
+            </li>
+            <li className="flex items-center gap-2">
+              <CircleCheck size={20} className="text-green-600" />
+              Login with email OTP
+            </li>
+            <li className="flex items-center gap-2">
+              <CircleCheck size={20} className="text-green-600" />
+              Only you can view your data
+            </li>
+          </ul>
         </div>
-
-        <ActionButtons />
-      </div>
-
-      <Libraries />
-    </div>
+        <div className="flex flex-col gap-4 md:flex-row items-center mt-10 ">
+          <Link
+            to={"/register"}
+            className="btn btn-primary w-full md:w-[200px] p-2 rounded-md"
+          >
+            Create a new Vault
+          </Link>
+          <Link
+            to={"/login"}
+            className="btn border border-line w-full md:w-[200px] p-2 rounded-md"
+          >
+            Access Vault
+          </Link>
+        </div>
+      </main>
+      <Footer/>
+    </>
   );
 };
 

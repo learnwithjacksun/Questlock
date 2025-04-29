@@ -5,7 +5,7 @@ const Email = () => {
     <>
       <AuthLayout>
         <form>
-          <div className="min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-200px)] flex md:justify-center justify-between pb-10 pt-6 flex-col md:max-w-[400px] gap-4 w-full mx-auto">
+          <div className="min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-200px)] flex md:justify-center justify-between pb-20 pt-6 flex-col md:max-w-[400px] gap-4 w-full mx-auto">
             <div className="space-y-4">
               <div className="border-b border-line pb-4">
                   <h3 className="text-xl font-sora">

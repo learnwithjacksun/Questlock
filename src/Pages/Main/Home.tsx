@@ -6,12 +6,12 @@ const Home = () => {
   return (
     <>
       <Header />
-      <main className="min-h-[calc(100vh-80px)] flex md:justify-center justify-between py-10 flex-col layout">
+      <main className="min-h-[calc(100vh-80px)] flex md:justify-center justify-between py-10 pb-20 md:p-0 flex-col layout">
         <div>
           <span className="bg-secondary p-2 px-3 rounded-full border border-line text-muted text-sm">
            🔐 Secure, Simple, Portable
           </span>
-          <h1 className="text-3xl md:text-6xl mt-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
+          <h1 className="text-4xl md:text-6xl mt-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
             Your private vault for sensitive information
           </h1>
 
@@ -37,13 +37,13 @@ const Home = () => {
         <div className="flex flex-col gap-4 md:flex-row items-center mt-10 ">
           <Link
             to="/register"
-            className="btn btn-primary w-full md:w-[200px] p-2 rounded-md"
+            className="btn btn-primary w-full md:w-[200px] p-3 rounded-md"
           >
             Create a new Vault
           </Link>
           <Link
             to={"/login"}
-            className="btn border border-line w-full md:w-[200px] p-2 rounded-md"
+            className="btn border border-line w-full md:w-[200px] p-3 rounded-md"
           >
             Access Vault
           </Link>

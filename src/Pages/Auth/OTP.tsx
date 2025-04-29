@@ -1,6 +1,6 @@
 import { AuthLayout } from "@/Layouts";
 
-const Email = () => {
+const OTP = () => {
   return (
     <>
       <AuthLayout>
@@ -9,17 +9,17 @@ const Email = () => {
             <div className="space-y-4">
               <div className="border-b border-line pb-4">
                   <h3 className="text-xl font-sora">
-                    Continue with e-mail address
+                    Verify your e-mail address
                   </h3>
-                    <p className="text-muted text-sm">An email address is required to identify and authenticate you.</p>
+                  <p className="text-muted text-sm">A one-time password (OTP) was sent to the email you provided.</p>
               </div>
               <label htmlFor="email" className="text-xs text-muted">
-                E-mail Address <span className="text-red-500">*</span>
+                OTP <span className="text-red-500">*</span>
               </label>
               <div>
                 <input
-                  type="text"
-                  placeholder="e.g scorpion@gmail.com"
+                  type="number"
+                  placeholder="e.g 123456"
                   className="input w-full"
                 />
               </div>
@@ -29,7 +29,7 @@ const Email = () => {
               type="submit"
               className="btn-primary w-full h-10 rounded-md"
             >
-              Submit
+              Verify
             </button>
           </div>
         </form>
@@ -38,4 +38,4 @@ const Email = () => {
   );
 };
 
-export default Email;
+export default OTP;

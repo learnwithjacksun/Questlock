@@ -3,9 +3,16 @@ import { emaiilSchema } from "@/Schemas";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Loader } from "lucide-react";
+import { toast } from "sonner";
+import { sendOTP } from "@/Services/auth.service";
+import useAuthStore from "@/Stores/useAuthStore";
 
 type EmailSchema = z.infer<typeof emaiilSchema>;
 const Email = () => {
+  const { isAuthenticated } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -14,9 +21,34 @@ const Email = () => {
     resolver: zodResolver(emaiilSchema),
   });
 
-  const onSubmit = (data: EmailSchema) => {
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/passcode");
+    }
+  }, [isAuthenticated, navigate]);
+
+  const onSubmit = async (data: EmailSchema) => {
     console.log(data);
-  }
+    setLoading(true);
+    try {
+      const userId = await sendOTP(data.email);
+      if (userId) {
+        toast.success("Token sent successfully. Check your email for the OTP.");
+        navigate(`/verify?email=${data.email}&userId=${userId}`);
+      }
+    } catch (error) {
+      console.error("Error sending token:", error);
+      toast.error((error as Error).message, {
+        description:
+          "An error occurred while sending the token. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -43,16 +75,20 @@ const Email = () => {
                   {...register("email")}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
             </div>
 
             <button
               type="submit"
-              className="btn-primary w-full h-10 rounded-md"
+              disabled={loading}
+              className="btn-primary mt-4 fixed md:relative bottom-4 left-1/2 -translate-x-1/2 text-sm w-[90%] md:w-full h-10 rounded-md"
             >
-              Submit
+              {loading && <Loader size={20} className="animate-spin" />}
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>

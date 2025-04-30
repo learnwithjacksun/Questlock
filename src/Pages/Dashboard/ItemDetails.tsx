@@ -1,21 +1,11 @@
 import { Delete, New, Decrypt, DeleteVault } from "@/Components/Dashboard";
-import { items } from "@/Constants/data";
 import { DashboardLayout } from "@/Layouts";
+import { useDataStore } from "@/Stores";
+import useAuthStore from "@/Stores/useAuthStore";
+import { Models } from "appwrite";
 import { Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Navigate, useSearchParams } from "react-router-dom";
-
-type ItemValue = {
-  id: string;
-  key: string;
-  value: string;
-};
-
-type Item = {
-  id: string;
-  title: string;
-  values: ItemValue[];
-};
+import { useLocation, useSearchParams } from "react-router-dom";
 
 type ModalState = {
   decrypt: boolean;
@@ -26,10 +16,17 @@ type ModalState = {
 };
 
 const ItemDetails = () => {
+  const {user} = useAuthStore()
+  const { values } = useDataStore();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const item = items.find((item) => item.id === id) as Item | undefined;
+  const location = useLocation()
+  const {item} = location.state
 
+  const allItemValues = values?.filter(
+    (itemValue) => itemValue.itemId === id
+  ) as Models.Document[];
+  console.log(allItemValues);
   const [isOpen, setIsOpen] = useState<ModalState>({
     decrypt: false,
     delete: false,
@@ -38,19 +35,17 @@ const ItemDetails = () => {
     deleteVault: false,
   });
 
-  const [data, setData] = useState<ItemValue>({
-    id: "",
-    key: "",
-    value: "",
-  });
+  const [data, setData] = useState<Models.Document>();
 
-  const toggleModal = (modal: keyof ModalState, value: ItemValue) => {
+  const toggleModal = (modal: keyof ModalState, value: Models.Document) => {
     setIsOpen((prev) => ({ ...prev, [modal]: !prev[modal] }));
     setData(value);
   };
 
   if (!item) {
-    return <Navigate to="/dashboard" />;
+    return <div className="text-center mt-4 text-muted text-sm">
+      <h1> Not found! 😪</h1>
+    </div>;
   }
 
   return (
@@ -65,15 +60,21 @@ const ItemDetails = () => {
           </p>
         </div>
 
+        {allItemValues.length === 0 && (
+          <div className="p-4 border border-line bg-secondary rounded-md mt-6 flex items-center justify-center">
+            <h3 className="text-muted text-sm">No Secret items here yet! 🙄</h3>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-          {item.values.map((value) => (
+          {allItemValues.map((value) => (
             <div
               key={value.id}
               className="border border-line p-2 rounded-md space-y-4"
             >
               <div>
                 <h4 className="text-muted text-sm">{value.key}</h4>
-                <p className="text-sm font-bold line-clamp-1">{value.value}</p>
+                <p className="text-sm font-bold line-clamp-1 text-ellipsis">{value.value}</p>
               </div>
               <div className="flex gap-2 mt-2">
                 <button
@@ -108,9 +109,9 @@ const ItemDetails = () => {
         </div>
       </DashboardLayout>
 
-      <Decrypt isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
-      <Delete isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
-      <New isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Decrypt isOpen={isOpen} setIsOpen={setIsOpen} data={data} secret={user?.passcode} /> 
+      <Delete isOpen={isOpen} setIsOpen={setIsOpen} data={data} id={item.$id} />
+      <New isOpen={isOpen} setIsOpen={setIsOpen} id={item.$id} secret={user?.passcode} />
       <DeleteVault isOpen={isOpen} setIsOpen={setIsOpen} id={item.id} />
     </>
   );

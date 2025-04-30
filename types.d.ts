@@ -1,3 +1,4 @@
+
 interface ThemeStore {
     theme: string;
     toggleTheme: () => void;
@@ -20,21 +21,31 @@ type IsOpen = {
   interface DecryptProps {
     isOpen: IsOpen;
     setIsOpen: React.Dispatch<React.SetStateAction<IsOpen>>;
-    data: Data;
+    data: Models.Document;
+    secret: string;
   }
 
   interface NewProps {
     isOpen: IsOpen;
     setIsOpen: React.Dispatch<React.SetStateAction<IsOpen>>;
-    data?: Data;
+    data?: Models.Document;
+    id: string;
+    secret: string;
   }
   interface DeleteProps {
     isOpen: IsOpen;
     setIsOpen: React.Dispatch<React.SetStateAction<IsOpen>>;
-    data: Data;
+    data: Models.Document;
+    id: string;
   }
   interface DeleteVaultProps {
     isOpen: IsOpen;
     setIsOpen: React.Dispatch<React.SetStateAction<IsOpen>>;
     id: string
   }
+
+  type SecurityFormData = {
+    passcode: string;
+    securityQuestion: string;
+    answer: string;
+  };

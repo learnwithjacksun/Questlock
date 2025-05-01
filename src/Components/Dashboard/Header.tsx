@@ -34,7 +34,7 @@ const Header = () => {
               onClick={() => setIsOpen((prev) => !prev)}
               className="flex items-center gap-2 cursor-pointer"
             >
-              <div className="h-10 w-10 bg-purple-500/50 center rounded-full overflow-hidden p-1">
+              <div className="h-10 w-10 bg-purple-500/50 center rounded-full overflow-hidden">
                 <img
                   src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.username}`}
                   alt=""
@@ -63,9 +63,9 @@ const Header = () => {
             title="My Profile"
           >
             <div className="flex gap-4">
-              <div className="h-22 w-22 rounded-full bg-foreground flex items-center justify-center overflow-hidden">
+              <div className="h-22 w-22 rounded-full bg-purple-500/50 flex items-center justify-center overflow-hidden">
                 <img
-                  src={`https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${user?.username}`}
+                  src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.username}`}
                   alt=""
                   className="w-full object-cover h-full"
                 />

@@ -1,13 +1,12 @@
 import {
   uniqueNamesGenerator,
-  colors,
   adjectives,
   animals,
   Config,
 } from "unique-names-generator";
 
 const randomNameConfig: Config = {
-  dictionaries: [colors, adjectives, animals ],
+  dictionaries: [adjectives, animals ],
   separator: ".",
   length: 2,
 };

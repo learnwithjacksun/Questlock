@@ -58,9 +58,9 @@ const Passcode = () => {
           <div className="md:max-w-[400px] gap-4 w-full mx-auto">
             <div className="space-y-4">
               <div className="border-b border-line pb-4 space-y-3 center flex-col">
-                <div className="h-22 w-22 rounded-full bg-foreground flex items-center justify-center overflow-hidden">
+                <div className="h-22 w-22 rounded-full bg-purple-500/50 flex items-center justify-center overflow-hidden">
                   <img
-                    src={`https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${user?.username}`}
+                    src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.username}`}
                     alt=""
                     className="w-full object-cover h-full"
                   />

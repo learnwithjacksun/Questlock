@@ -20,6 +20,7 @@ const New = ({ isOpen, setIsOpen, id}: NewProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<formSchema>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -33,10 +34,12 @@ const New = ({ isOpen, setIsOpen, id}: NewProps) => {
       loading: "Creating item...",
       success: () => {
         setIsOpen({ ...isOpen, new: false });
+        reset()
         return "Item created successfully!";
       },
       error: (err) => {
         console.error(err);
+        reset()
         return "Failed to create item.";
       },
     });

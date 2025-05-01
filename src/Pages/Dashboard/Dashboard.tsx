@@ -23,6 +23,7 @@ const Dashboard = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormSchema>({
     resolver: zodResolver(schema),
@@ -35,9 +36,11 @@ const Dashboard = () => {
       loading: "Creating vault...",
       success: () => {
         setIsOpen(false);
+        reset()
         return "Vault created successfully!";
       },
       error: (err) => {
+        reset()
         return err.message;
       },
     });

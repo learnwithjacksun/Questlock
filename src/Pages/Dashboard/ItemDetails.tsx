@@ -1,6 +1,6 @@
-import { Delete, New, Decrypt, DeleteVault } from "@/Components/Dashboard";
+import { Delete, New, Decrypt } from "@/Components/Dashboard";
+import { useData } from "@/Hooks";
 import { DashboardLayout } from "@/Layouts";
-import { useDataStore } from "@/Stores";
 import useAuthStore from "@/Stores/useAuthStore";
 import { Models } from "appwrite";
 import { Plus, Trash2 } from "lucide-react";
@@ -12,16 +12,15 @@ type ModalState = {
   delete: boolean;
   new: boolean;
   edit: boolean;
-  deleteVault: boolean;
 };
 
 const ItemDetails = () => {
-  const {user} = useAuthStore()
-  const { values } = useDataStore();
+  const { values} = useData()
+  const { user } = useAuthStore();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const location = useLocation()
-  const {item} = location.state
+  const location = useLocation();
+  const { item } = location.state;
 
   const allItemValues = values?.filter(
     (itemValue) => itemValue.itemId === id
@@ -32,8 +31,9 @@ const ItemDetails = () => {
     delete: false,
     new: false,
     edit: false,
-    deleteVault: false,
   });
+
+ 
 
   const [data, setData] = useState<Models.Document>();
 
@@ -42,10 +42,14 @@ const ItemDetails = () => {
     setData(value);
   };
 
+  
+
   if (!item) {
-    return <div className="text-center mt-4 text-muted text-sm">
-      <h1> Not found! 😪</h1>
-    </div>;
+    return (
+      <div className="text-center mt-4 text-muted text-sm">
+        <h1> Not found! 😪</h1>
+      </div>
+    );
   }
 
   return (
@@ -61,8 +65,8 @@ const ItemDetails = () => {
         </div>
 
         {allItemValues.length === 0 && (
-          <div className="p-4 border border-line bg-secondary rounded-md mt-6 flex items-center justify-center">
-            <h3 className="text-muted text-sm">No Secret items here yet! 🙄</h3>
+          <div className="p-4 border border-line bg-secondary rounded-xl mt-6 flex items-center justify-center">
+            <h3 className="text-muted text-sm font-medium">No Secret items here yet! 🤷‍♀️</h3>
           </div>
         )}
 
@@ -70,16 +74,18 @@ const ItemDetails = () => {
           {allItemValues.map((value) => (
             <div
               key={value.id}
-              className="border border-line p-2 rounded-md space-y-4"
+              className="border border-line p-4 dark:bg-secondary rounded-xl space-y-6"
             >
-              <div>
+              <div className="space-y-2">
                 <h4 className="text-muted text-sm">{value.key}</h4>
-                <p className="text-sm font-bold line-clamp-1 text-ellipsis">{value.value}</p>
+                <p className="font-medium text-sm text-wrap line-clamp-1 text-ellipsis">
+                  {value.value}
+                </p>
               </div>
-              <div className="flex gap-2 mt-2">
+              <div className="flex gap-2 border-t border-line pt-4">
                 <button
                   onClick={() => toggleModal("decrypt", value)}
-                  className="btn-primary text-xs h-8 px-4 rounded-md"
+                  className="bg-foreground border border-line text-xs h-8 px-4 rounded-md"
                 >
                   Decrypt/ Copy
                 </button>
@@ -96,23 +102,26 @@ const ItemDetails = () => {
         <div className="flex items-center gap-4 mt-6 md:justify-center">
           <button
             onClick={() => setIsOpen({ ...isOpen, new: true })}
-            className="bg-purple-700 text-xs text-white dark:text-main h-10 px-4 btn rounded-md cursor-pointer"
+            className="btn-primary text-xs text-white dark:text-main h-10 px-5 btn rounded-md cursor-pointer"
           >
             <Plus size={16} /> Add New
           </button>
-          <button
-            onClick={() => setIsOpen({ ...isOpen, deleteVault: true })}
-            className="border border-red-500 text-xs text-red-500 dark:text-main h-10 px-4 btn rounded-md bg-red-500/10"
-          >
-            <Trash2 size={16} className="text-red-600" /> Delete Vault
-          </button>
+          
         </div>
       </DashboardLayout>
 
-      <Decrypt isOpen={isOpen} setIsOpen={setIsOpen} data={data} secret={user?.passcode} /> 
-      <Delete isOpen={isOpen} setIsOpen={setIsOpen} data={data} id={item.$id} />
-      <New isOpen={isOpen} setIsOpen={setIsOpen} id={item.$id} secret={user?.passcode} />
-      <DeleteVault isOpen={isOpen} setIsOpen={setIsOpen} id={item.id} />
+      <Decrypt
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        data={data}
+      />
+      <Delete isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
+      <New
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        id={item.$id}
+        secret={user?.passcode}
+      />
     </>
   );
 };

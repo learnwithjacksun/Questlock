@@ -2,15 +2,14 @@ import { databases, DB, USERS } from "@/Config/appwrite";
 import { Query } from "appwrite";
 import {
   uniqueNamesGenerator,
-  adjectives,
   colors,
   Config,
 } from "unique-names-generator";
 
 const randomNameConfig: Config = {
-  dictionaries: [adjectives, colors],
-  separator: ".",
-  length: 2,
+  dictionaries: [colors],
+  separator: " ",
+  length: 1,
 };
 
 const username = uniqueNamesGenerator(randomNameConfig);

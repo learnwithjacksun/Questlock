@@ -4,15 +4,14 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Loader } from "lucide-react";
-import { toast } from "sonner";
-import { sendOTP } from "@/Services/auth.service";
-import useAuthStore from "@/Stores/useAuthStore";
+
+import { useAuth } from "@/Hooks";
 
 type EmailSchema = z.infer<typeof emaiilSchema>;
 const Email = () => {
-  const { isAuthenticated } = useAuthStore();
+  const { sendOTP, loading, currentUser } = useAuth();
   const {
     register,
     handleSubmit,
@@ -21,33 +20,15 @@ const Email = () => {
     resolver: zodResolver(emaiilSchema),
   });
 
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
   useEffect(() => {
-    if (isAuthenticated) {
+    if (currentUser) {
       navigate("/passcode");
     }
-  }, [isAuthenticated, navigate]);
+  }, [currentUser, navigate]);
 
   const onSubmit = async (data: EmailSchema) => {
-    console.log(data);
-    setLoading(true);
-    try {
-      const userId = await sendOTP(data.email);
-      if (userId) {
-        toast.success("Token sent successfully. Check your email for the OTP.");
-        navigate(`/verify?email=${data.email}&userId=${userId}`);
-      }
-    } catch (error) {
-      console.error("Error sending token:", error);
-      toast.error((error as Error).message, {
-        description:
-          "An error occurred while sending the token. Please try again later.",
-      });
-    } finally {
-      setLoading(false);
-    }
+    await sendOTP(data.email);
   };
 
   return (

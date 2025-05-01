@@ -22,10 +22,9 @@ export const createValue = async (
   itemId: string,
   key: string,
   value: string,
-  secretKey: string
 ) => {
   try {
-    const encryptedValue = encryptData(value, secretKey);
+    const encryptedValue = encryptData(value);
     const res = await databases.createDocument(DB, VALUES, ID.unique(), {
       itemId,
       key,
@@ -39,6 +38,26 @@ export const createValue = async (
     throw new Error("Failed to create value.");
   }
 };
+
+export const deleteValue = async (id:string) =>{
+  try {
+    const res = await databases.deleteDocument(DB, VALUES, id)
+    return res
+  } catch (error) {
+    console.error("Error deleting value:", error);
+    throw new Error("Failed to delete value.");
+  }
+}
+
+export const deleteVault = async (id:string) =>{
+  try {
+    const res = await databases.deleteDocument(DB, ITEMS, id)
+    return res
+  } catch (error) {
+    console.error("Error deleting value:", error);
+    throw new Error("Failed to delete value.");
+  }
+}
 
 export const getUserItems = async (userId: string | undefined) => {
   if (!userId) throw new Error("User ID not found!");

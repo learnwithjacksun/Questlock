@@ -1,14 +1,13 @@
 import { ItemList } from "@/Components/Dashboard";
 import { Modal } from "@/Components/UI";
+import { useData } from "@/Hooks";
 import { DashboardLayout } from "@/Layouts";
-import { createItem, fetchValues } from "@/Services/data.service";
 import useAuthStore from "@/Stores/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
 import { HelpCircle, Loader, Plus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { string, z } from "zod";
 
@@ -19,9 +18,9 @@ const schema = z.object({
 type FormSchema = z.infer<typeof schema>;
 
 const Dashboard = () => {
+  const { createItem, isCreating } = useData();
   const { user } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -30,22 +29,15 @@ const Dashboard = () => {
     resolver: zodResolver(schema),
   });
 
-  const navigate = useNavigate();
-
   const onSubmit = async (data: FormSchema) => {
     console.log(data);
-    setIsLoading(true);
-    toast.promise(createItem(data.title, user?.$id), {
+    toast.promise(createItem(data.title, user?.$id as string), {
       loading: "Creating vault...",
-      success: (res) => {
-        setIsLoading(false);
+      success: () => {
         setIsOpen(false);
-        fetchValues()
-        navigate(`/details/?id=${res.itemId}`);
         return "Vault created successfully!";
       },
       error: (err) => {
-        setIsLoading(false);
         return err.message;
       },
     });
@@ -101,9 +93,10 @@ const Dashboard = () => {
 
               <button
                 type="submit"
+                disabled={isCreating}
                 className="btn-primary mt-4 w-full text-sm h-10 rounded-md hover:opacity-90 transition-opacity duration-200 ease-in-out"
               >
-                {isLoading ? (
+                {isCreating ? (
                   <Loader size={18} className="animate-spin" />
                 ) : (
                   " Create Vault"

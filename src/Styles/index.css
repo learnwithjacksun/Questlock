@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Sora:wght@100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap');
 
 @import "tailwindcss";
 
@@ -25,7 +25,7 @@
 }
 
 @theme {
-  --font-sans: 'Instrument Sans', sans-serif;
+  --font-sans: 'Montserrat', sans-serif;
   --font-sora: 'Sora', sans-serif;
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
@@ -66,13 +66,13 @@ button,
 }
 
 .input {
-  @apply bg-secondary text-sm border border-line rounded-lg px-4 h-10 font-light focus:outline-none focus:border-primary invalid:border-red-500;
+  @apply bg-secondary text-sm border border-line rounded-lg px-4 h-10 focus:outline-none focus:border-primary invalid:border-red-500;
 }
 .message {
-  @apply bg-foreground text-sm border border-line rounded-lg px-4 py-2 font-light focus:outline-none focus:border-primary invalid:border-red-500;
+  @apply bg-foreground text-sm border border-line rounded-lg px-4 py-2 font-medium focus:outline-none focus:border-primary invalid:border-red-500;
 }
 .input-2 {
-  @apply  text-sm border border-line rounded-lg px-4 h-10 font-light focus:outline-none focus:border-primary invalid:border-red-500;
+  @apply  text-sm border border-line rounded-lg px-4 h-10 focus:outline-none focus:border-primary invalid:border-red-500;
 }
 .message-2 {
   @apply  text-sm border border-line rounded-lg px-4 py-2 font-light focus:outline-none focus:border-primary invalid:border-red-500;

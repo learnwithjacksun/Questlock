@@ -4,7 +4,7 @@ import { Check, Copy, Loader, X } from "lucide-react";
 import { useState } from "react";
 import { decryptData } from "@/Config/crypto";
 
-const Decrypt = ({ isOpen, setIsOpen, data, secret }: DecryptProps) => {
+const Decrypt = ({ isOpen, setIsOpen, data }: DecryptProps) => {
   const [isDecrypted, setIsDecrypted] = useState(false);
   const [decryptedValue, setDecryptedValue] = useState("");
   const [isCopied, setIsCopied] = useState(false);
@@ -13,7 +13,7 @@ const Decrypt = ({ isOpen, setIsOpen, data, secret }: DecryptProps) => {
   const handleDecrypt = async (value: string) => {
     try {
       setIsLoading(true);
-      const res = await decryptData(value, secret);
+      const res = await decryptData(value);
       if (res) {
         setDecryptedValue(res);
         setIsDecrypted(true);
@@ -52,21 +52,21 @@ const Decrypt = ({ isOpen, setIsOpen, data, secret }: DecryptProps) => {
           >
             <div>
               <div className="space-y-2">
-                <p className="text-muted">
+                <p className="text-muted text-sm">
                   Do you wish to decrypt the value of this item?
                 </p>
                 <div className="border border-line rounded-md space-y-1">
                   <p className="text-xs p-2">Encrypted {data.key}</p>
-                  <p className="bg-foreground text-sm p-2">{data.value}</p>
+                  <p className="bg-foreground text-xs p-2">{data.value}</p>
                 </div>
                 {isDecrypted && (
                   <div className="border border-line rounded-md space-y-1">
                     <p className="text-xs p-2">Decrypted {data.key}</p>
                     <div className="bg-foreground p-2 flex items-center justify-between">
-                      <p className="text-sm">{decryptedValue}</p>
+                      <p className="text-xs">{decryptedValue}</p>
                       <button
                         onClick={handleCopy}
-                        className="text-xs bg-secondary rounded-sm h-8 px-2"
+                        className="text-xs shadow bg-background dark:bg-secondary rounded-sm h-8 px-2"
                       >
                         {isCopied ? (
                           <Check size={18} className="text-green-500" />
@@ -98,7 +98,7 @@ const Decrypt = ({ isOpen, setIsOpen, data, secret }: DecryptProps) => {
                     setDecryptedValue("");
                     setIsDecrypted(false);
                   }}
-                  className="border border-line text-xs h-10 px-4 rounded-md"
+                  className="border border-line bg-foreground text-xs h-10 px-4 rounded-md"
                 >
                   <X size={16} /> Cancel
                 </button>

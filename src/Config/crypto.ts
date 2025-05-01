@@ -1,12 +1,14 @@
 import cryptoJS from 'crypto-js';
 
-const encryptData = (data: string, secretKey: string) => {
-    const ciphertext = cryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+const SECRET = import.meta.env.VITE_SECRET;
+
+const encryptData = (data: string) => {
+    const ciphertext = cryptoJS.AES.encrypt(JSON.stringify(data), SECRET).toString();
     return ciphertext;
 };
 
-const decryptData = async (ciphertext: string, secretKey: string) => {
-    const bytes = cryptoJS.AES.decrypt(ciphertext, secretKey);
+const decryptData = async (ciphertext: string) => {
+    const bytes = cryptoJS.AES.decrypt(ciphertext, SECRET);
     try {
         const decryptedData = await JSON.parse(bytes.toString(cryptoJS.enc.Utf8));
          return decryptedData

@@ -12,12 +12,16 @@ interface AuthStore {
   setUser: (user: Models.Document) => void;
   logout: () => Promise<void>;
   fetchUser: (userId: string) => Promise<void>;
+  currentUser: Models.User<Models.Preferences> | null;
+  setCurrentUser: (currentUser:Models.User<Models.Preferences>) => void
 }
 
 const useAuthStore = create<AuthStore>((set) => ({
+  currentUser: null,
   isLoggingOut: false,
   isCheckingAuth: false,
   isAuthenticated: false,
+  setCurrentUser: (state)=> set({currentUser: state}),
   setIsCheckingAuth: (state) => set({ isCheckingAuth: state }),
   setAuthState: (state) => set({ isAuthenticated: state }),
   user: null,

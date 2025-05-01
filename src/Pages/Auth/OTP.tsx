@@ -3,18 +3,16 @@ import { otpSchema } from "@/Schemas";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
-
-import useAuthStore from "@/Stores/useAuthStore";
-import { verifyOTP } from "@/Services/auth.service";
+import { useAuth } from "@/Hooks";
 
 type OTPSchema = z.infer<typeof otpSchema>;
 
 const OTP = () => {
-  const { setAuthState, setUser } = useAuthStore();
+  const { verifyOTP, loading } = useAuth();
   const {
     register,
     handleSubmit,
@@ -36,26 +34,8 @@ const OTP = () => {
     }
   }, [userId, email, navigate]);
 
-  const [loading, setLoading] = useState(false);
-
   const onSubmit = async (data: OTPSchema) => {
-    console.log(data.otp);
-    setLoading(true);
-
-    try {
-      const session = await verifyOTP(userId, data.otp, email);
-      if (session) {
-        setAuthState(true);
-        setUser(session.user);
-        toast.success("OTP verified successfully. Welcome to the app!");
-        
-        navigate("/dashboard");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    await verifyOTP(userId, data.otp, email);
   };
 
   return (
@@ -69,7 +49,7 @@ const OTP = () => {
                   Verify e-mail address
                 </h3>
                 <p className="text-muted text-sm">
-                  A one-time password (OTP) was sent to the email you provided.
+                  A one-time password (OTP) was sent to {email}.
                 </p>
               </div>
               <label htmlFor="email" className="text-xs text-muted">

@@ -38,6 +38,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("Session Active", session);
       await checkIfUserExistAlready(userId, email);
       await getUser();
+      toast.success("Verification Successful!")
     } catch (error) {
       console.error("Error verifying token:", error);
       throw new Error(

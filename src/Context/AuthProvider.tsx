@@ -5,6 +5,7 @@ import { account, databases, DB, USERS } from "@/Config/appwrite";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { randomName } from "@/Config/name";
+import { encryptData } from "@/Config/crypto";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Models.Document>();
@@ -36,7 +37,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const session = await account.createSession(userId, otp);
       console.log("Session Active", session);
       await checkIfUserExistAlready(userId, email);
-      await getUser(userId);
+      await getUser();
     } catch (error) {
       console.error("Error verifying token:", error);
       throw new Error(
@@ -54,11 +55,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       ]);
       if (res.documents.length === 0) {
         try {
+          const encryptedEmail = encryptData(email);
           await databases.createDocument(DB, USERS, id, {
             userId: id,
             username: randomName,
-            email,
+            email: encryptedEmail,
           });
+          await getUser()
           navigate("/security");
         } catch (error) {
           console.error("Error creating new user:", error);
@@ -67,7 +70,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           );
         }
       } else {
-        navigate("/dashboard");
+        await getUser()
+        navigate("/passcode");
       }
     } catch (error) {
       console.error("Error checking user existence:", error);
@@ -77,10 +81,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const getUser = async (id: string) => {
+  const getUser = async () => {
     try {
-      const res = await databases.getDocument(DB, USERS, id);
-      setUser(res);
+      const user = await account.get();
+      if (user) {
+        const res = await databases.getDocument(DB, USERS, user.$id);
+        setUser(res);
+        setCurrentUser(user)
+      }
     } catch (error) {
       console.error("Error getting user:", error);
       throw new Error(
@@ -92,7 +100,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const createSecurity = async (id: string, data: SecurityFormData) => {
     setLoading(true);
     try {
-  
       const validQuestion = data.securityQuestion.includes("?")
         ? data.securityQuestion
         : `${data.securityQuestion}?`;
@@ -101,7 +108,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         question: validQuestion,
         answer: data.answer,
       });
-      await getUser(id);
+      await getUser();
       navigate("/dashboard");
     } catch (error) {
       console.error("Error creating security:", error);
@@ -113,19 +120,19 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = async ()=>{
-    setLoading(true)
+  const logout = async () => {
+    setLoading(true);
     try {
-      await account.deleteSession("current")
-      setCurrentUser(null)
-      navigate("/auth")
+      await account.deleteSession("current");
+      setCurrentUser(null);
+      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
-      throw new Error(
-        "An error occurred. Please try again later."
-      );
+      throw new Error("An error occurred. Please try again later.");
     }
-  }
+  };
+
+ 
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -133,7 +140,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const res = await account.get();
         setCurrentUser(res);
-        await getUser(res.$id);
+        await getUser();
       } catch (error) {
         console.error("Error checking auth:", error);
       } finally {
@@ -142,7 +149,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     checkAuth();
-  },[]);
+  }, []);
 
   const context: AuthContextType = {
     user,
@@ -152,7 +159,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isCheckingAuth,
     loading,
     createSecurity,
-    logout
+    logout,
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

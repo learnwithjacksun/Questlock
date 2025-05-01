@@ -77,7 +77,7 @@ const DashboardLayout = ({ children }: DashboardLayouProps) => {
     <>
       <div>
         <Header />
-        <main className="layout pb-20">{children}</main>
+        <main className="layout pb-20 mt-6">{children}</main>
       </div>
 
       <AnimatePresence>

@@ -1,8 +1,9 @@
 import { useAuth } from "@/Hooks";
 import { Loader } from "lucide-react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const Protector = () => {
+  const location = useLocation();
   const { isCheckingAuth, currentUser } = useAuth();
 
   if (isCheckingAuth)
@@ -11,10 +12,11 @@ const Protector = () => {
         <Loader size={20} className="animate-spin text-purple-500" /> Loading...
       </div>
     );
-  return currentUser && !isCheckingAuth ? (
+
+  return currentUser ? (
     <Outlet />
   ) : (
-    <Navigate to="/passcode" replace={true} />
+    <Navigate to="/auth" replace state={{ from: location }} />
   );
 };
 

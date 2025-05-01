@@ -1,16 +1,15 @@
-import { ChevronRight, Trash2 } from "lucide-react";
+import { ChevronRight, CircleCheck, KeyRound, Trash2 } from "lucide-react";
 import { Search } from "../UI";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuthStore from "@/Stores/useAuthStore";
 import { Models } from "appwrite";
-import { useData } from "@/Hooks";
+import { useAuth, useData } from "@/Hooks";
 import DeleteVault from "./DeleteVault";
 
 const ItemList = () => {
   const navigate = useNavigate();
   const { items, isFetching, values } = useData();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const [search, setSearch] = useState<string>("");
   const userItems = items.filter((item) => item.ownerId === user?.$id);
   const [isOpen, setIsOpen] = useState(false);
@@ -26,13 +25,13 @@ const ItemList = () => {
 
   const handleItemClick = (id: string, item: Models.Document) => {
     navigate(`/details/?id=${id}`, { state: { item } });
-    console.log("nav open")
+    console.log("nav open");
   };
 
   const openModal = (id: string) => {
     setIsOpen(true);
     setItemId(id);
-    console.log("modal open")
+    console.log("modal open");
   };
 
   return (
@@ -58,8 +57,19 @@ const ItemList = () => {
             filteredItems?.map((item) => (
               <div
                 key={item.$id}
-                className="border border-line bg-gradient-to-r from-secondary to-transparent p-4 rounded-2xl dark:shadow-sm shadow-purple-500/10 hover:shadow-xl transition-all duration-300 ease-in-out"
+                className="border border-line relative bg-gradient-to-r from-secondary to-transparent p-4 rounded-2xl dark:shadow-sm shadow-purple-500/10 hover:shadow-xl transition-all duration-300 ease-in-out"
               >
+                {numberOfValues(item.$id) > 0 ? (
+                  <div className="top-4 right-4 bg-secondary text-xs text-muted center gap-2 rounded-full absolute border border-line p-1 pr-2">
+                    <CircleCheck size={16} className="text-green-500" />
+                    <span>Active</span>
+                  </div>
+                ) : (
+                  <div className="top-4 right-4 bg-secondary text-xs text-muted center gap-2 rounded-full absolute border border-line p-1 px-2">
+                    <KeyRound size={16} className=" text-yellow-500" />
+                    <span>Empty</span>
+                  </div>
+                )}
                 <div className="space-y-4">
                   <h4 className="text-main">{item.title}</h4>
                   <div>
@@ -73,15 +83,15 @@ const ItemList = () => {
                   <div className="flex items-center justify-between">
                     <button
                       onClick={(e) => {
-                        e.stopPropagation()
-                        openModal(item.$id)
+                        e.stopPropagation();
+                        openModal(item.$id);
                       }}
                       className="center h-14 w-14 border border-line rounded-full"
                     >
                       <Trash2 size={18} className="text-red-500" />
                     </button>
                     <button
-                       onClick={(e) => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         handleItemClick(item.$id, item);
                       }}
@@ -96,8 +106,13 @@ const ItemList = () => {
 
           {/* No items found */}
           {!isFetching.items && filteredItems?.length === 0 && (
-            <div className="col-span-full text-center text-muted text-sm py-10">
-              No items found.
+            <div className="col-span-full text-center text-muted text-sm">
+              <img
+                src="/vault.svg"
+                width={200}
+                className="mx-auto bg-secondary dark:bg-secondary/50 rounded-full"
+              />
+              <p>No Items found...</p>
             </div>
           )}
         </div>

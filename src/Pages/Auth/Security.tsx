@@ -59,8 +59,8 @@ const Security = () => {
                 <input
                   {...register("passcode")}
                   type="text"
-                  className="input-2 bg-foreground placeholder:normal-case"
-                  placeholder="e.g mysecretkey"
+                  className="input-2 placeholder:normal-case"
+                  placeholder="e.g mysecretkey123"
                 />
                 {errors.passcode && (
                   <p className="text-xs text-red-500">
@@ -73,8 +73,8 @@ const Security = () => {
                   size={16}
                   className="flex-shrink-none text-yellow-500"
                 />
-                Passcode will be used to encrypt your vault. Make sure to
-                remember it.
+                For data security reasons, an anonymous username will be
+                generated for you. You can change it later in settings.
               </p>
             </div>
           )}

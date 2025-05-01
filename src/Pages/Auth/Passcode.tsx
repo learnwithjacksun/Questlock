@@ -4,7 +4,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { isUser } from "@/Services/auth.service";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
@@ -12,7 +11,7 @@ import { useAuth } from "@/Hooks";
 
 type PasscodeSchema = z.infer<typeof passcodeSchema>;
 const Passcode = () => {
-  const { user, logout, loading } = useAuth();
+  const { user, logout, loading, currentUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -25,21 +24,19 @@ const Passcode = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
-      <Navigate to="/auth" replace={true}/>
+      navigate("/auth");
     }
   }, [navigate, user]);
 
   const onSubmit = async (data: PasscodeSchema) => {
-    try {
-      const res = await isUser(data.passcode, user?.$id);
-      if (res) {
+    if (data.passcode === user.passcode) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
         navigate("/dashboard");
-      }
-    } catch (error) {
-      console.error("Error verifying passcode:", error);
-      toast.error((error as Error).message);
-    } finally {
-      setIsLoading(false);
+      }, 1000);
+    } else {
+      toast.error("Invalid Passcode");
     }
   };
 
@@ -51,6 +48,9 @@ const Passcode = () => {
     });
   };
 
+  if (!currentUser) {
+    return <Navigate to={"/auth"} replace={true} />;
+  }
   return (
     <>
       <AuthLayout>
@@ -88,6 +88,7 @@ const Passcode = () => {
                   type="text"
                   placeholder="Enter Passcode"
                   className="input w-full text-center"
+                  autoComplete="off"
                   {...register("passcode")}
                 />
                 {errors.passcode && (

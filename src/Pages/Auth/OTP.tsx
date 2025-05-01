@@ -41,39 +41,34 @@ const OTP = () => {
   return (
     <>
       <AuthLayout>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="min-h-[calc(100vh-80px)] md:min-h-[calc(100vh-200px)] flex md:justify-center justify-between pb-20 pt-6 flex-col md:max-w-[400px] gap-4 w-full mx-auto">
-            <div className="space-y-4">
-              <div className="border-b border-line pb-4">
-                <h3 className="text-2xl capitalize font-bold font-sora bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
-                  Verify e-mail address
-                </h3>
-                <p className="text-muted text-sm">
-                  A one-time password (OTP) was sent to {email}.
-                </p>
-              </div>
-              <label htmlFor="email" className="text-xs text-muted">
-                OTP <span className="text-red-500">*</span>
-              </label>
-              <div>
-                <input
-                  type="number"
-                  placeholder="e.g 123456"
-                  className="input w-full"
-                  {...register("otp")}
-                />
-                {errors.otp && (
-                  <p className="text-red-500 text-xs mt-1">
-                    {errors.otp.message}
-                  </p>
-                )}
-              </div>
-            </div>
+        <div className="border-b border-line pb-4">
+          <h3 className="text-2xl capitalize font-bold font-sora bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
+            Verify e-mail address
+          </h3>
+          <p className="text-muted text-sm">
+            A one-time password (OTP) was sent to {email}.
+          </p>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
+          <label htmlFor="email" className="text-xs text-muted">
+            OTP <span className="text-red-500">*</span>
+          </label>
+          <div>
+            <input
+              type="number"
+              placeholder="e.g 123456"
+              className="input w-full"
+              autoComplete="off"
+              {...register("otp")}
+            />
+            {errors.otp && (
+              <p className="text-red-500 text-xs mt-1">{errors.otp.message}</p>
+            )}
 
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary mt-4 fixed md:relative bottom-4 left-1/2 -translate-x-1/2 text-sm w-[90%] md:w-full h-10 rounded-md"
+              className="btn-primary mt-4 w-full text-sm h-10 rounded-md hover:opacity-90 transition-opacity duration-200 ease-in-out"
             >
               {loading && <Loader size={20} className="animate-spin" />}
               {loading ? "Verifying..." : "Verify"}

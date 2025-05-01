@@ -14,7 +14,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [items, setItems] = useState<Models.Document[]>([]);
   const [values, setValues] = useState<Models.Document[]>([]);
 
-  const createItem = async (title: string, ownerId: string) => {
+  const createItem = async (title: string, ownerId: string | undefined) => {
     setIsCreating(true);
     try {
       const itemDoc = await databases.createDocument(DB, ITEMS, ID.unique(), {
@@ -71,6 +71,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
         Query.orderDesc("$createdAt"),
       ]);
       setItems(items.documents);
+      console.log(items);
     } catch (error) {
       console.error("Error fetching item with values:", error);
       throw new Error("Failed to create item and values.");
@@ -84,15 +85,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
     fetchValues();
   }, [ fetchValues, fetchItems]);
 
-//  const deleteValue = async (id:string) =>{
-//     try {
-//       const res = await databases.deleteDocument(DB, VALUES, id)
-//       return res
-//     } catch (error) {
-//       console.error("Error deleting value:", error);
-//       throw new Error("Failed to delete value.");
-//     }
-//   }
+
   
    const deleteItem = async (id:string) =>{
     try {

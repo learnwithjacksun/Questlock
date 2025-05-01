@@ -55,9 +55,9 @@ const Decrypt = ({ isOpen, setIsOpen, data }: DecryptProps) => {
                 <p className="text-muted text-sm">
                   Do you wish to decrypt the value of this item?
                 </p>
-                <div className="border border-line rounded-md space-y-1">
+                <div className="border border-line rounded-md overflow-hidden space-y-1">
                   <p className="text-xs p-2">Encrypted {data.key}</p>
-                  <p className="bg-foreground text-xs p-2">{data.value}</p>
+                  <p className="dark:bg-background bg-foreground text-xs p-2">{data.value}</p>
                 </div>
                 {isDecrypted && (
                   <div className="border border-line rounded-md space-y-1">

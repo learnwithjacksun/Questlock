@@ -1,8 +1,7 @@
 import { ItemList } from "@/Components/Dashboard";
 import { Modal } from "@/Components/UI";
-import { useData } from "@/Hooks";
+import { useAuth, useData } from "@/Hooks";
 import { DashboardLayout } from "@/Layouts";
-import useAuthStore from "@/Stores/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
 import { HelpCircle, Loader, Plus } from "lucide-react";
@@ -19,7 +18,7 @@ type FormSchema = z.infer<typeof schema>;
 
 const Dashboard = () => {
   const { createItem, isCreating } = useData();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const {
     register,
@@ -29,9 +28,10 @@ const Dashboard = () => {
     resolver: zodResolver(schema),
   });
 
+
+
   const onSubmit = async (data: FormSchema) => {
-    console.log(data);
-    toast.promise(createItem(data.title, user?.$id as string), {
+    toast.promise(createItem(data.title, user.$id), {
       loading: "Creating vault...",
       success: () => {
         setIsOpen(false);

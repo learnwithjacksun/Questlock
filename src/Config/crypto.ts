@@ -7,10 +7,10 @@ const encryptData = (data: string) => {
     return ciphertext;
 };
 
-const decryptData = async (ciphertext: string) => {
+const decryptData = (ciphertext: string) => {
     const bytes = cryptoJS.AES.decrypt(ciphertext, SECRET);
     try {
-        const decryptedData = await JSON.parse(bytes.toString(cryptoJS.enc.Utf8));
+        const decryptedData = JSON.parse(bytes.toString(cryptoJS.enc.Utf8));
          return decryptedData
     } catch (error) {
         console.error("Decryption failed:", error);

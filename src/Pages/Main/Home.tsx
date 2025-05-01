@@ -1,8 +1,10 @@
-import { Footer, Header } from "@/Components/Main";
+import { Header } from "@/Components/Main";
+import { useAuth } from "@/Hooks";
 import { CircleCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  const {currentUser} = useAuth()
   return (
     <>
       <Header />
@@ -34,22 +36,22 @@ const Home = () => {
             </li>
           </ul>
         </div>
-        <div className="flex flex-col gap-4 md:flex-row items-center mt-10 ">
-          <Link
+        <div className="flex flex-col gap-4 md:flex-row items-center mt-10 fixed md:relative bottom-4 left-1/2 -translate-x-1/2 text-sm w-[90%] md:w-full ">
+         {!currentUser && <Link
             to="/auth"
             className="btn btn-primary text-sm w-full md:w-[200px] p-3 rounded-md"
           >
-            Create a new Vault
-          </Link>
+            Create a Vault
+          </Link>}
           <Link
             to={"/passcode"}
-            className="btn text-sm border border-line w-full md:w-[200px] p-3 rounded-md"
+            className="btn text-sm bg-secondary border border-line w-full md:w-[200px] p-3 rounded-md"
           >
-            Access Vault
+            View Vault
           </Link>
         </div>
       </main>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 };

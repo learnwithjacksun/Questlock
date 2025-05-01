@@ -25,7 +25,6 @@ const ItemDetails = () => {
   const allItemValues = values?.filter(
     (itemValue) => itemValue.itemId === id
   ) as Models.Document[];
-  console.log(allItemValues);
   const [isOpen, setIsOpen] = useState<ModalState>({
     decrypt: false,
     delete: false,
@@ -73,12 +72,12 @@ const ItemDetails = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
           {allItemValues.map((value) => (
             <div
-              key={value.id}
+              key={value.$id}
               className="border border-line p-4 dark:bg-secondary rounded-xl space-y-6"
             >
               <div className="space-y-2">
                 <h4 className="text-muted text-sm">{value.key}</h4>
-                <p className="font-medium text-sm text-wrap line-clamp-1 text-ellipsis">
+                <p className="font-medium text-xs text-wrap line-clamp-1 text-ellipsis">
                   {value.value}
                 </p>
               </div>

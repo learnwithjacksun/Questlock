@@ -80,7 +80,7 @@ const Recovery = () => {
                 Retrieved Passcode
               </p>
               <div className="bg-foreground p-2 flex items-center justify-between">
-                <p className="font-semibold capitalize p-2 text-sm text-wrap bg-secondary">
+                <p className="font-semibold capitalize p-2 text-sm text-wrap">
                   {user.passcode}
                 </p>
                 <button

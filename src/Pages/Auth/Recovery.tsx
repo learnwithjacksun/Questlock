@@ -106,7 +106,7 @@ const Recovery = () => {
               </label>
               <input
                 type="text"
-                placeholder="e.g 123456"
+                placeholder="Write your answer..."
                 className="input w-full lowercase"
                 autoComplete="off"
                 {...register("answer")}

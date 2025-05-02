@@ -11,7 +11,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  name: z.string().trim().min(1, { message: "Username is required!" }),
+  name: z
+    .string()
+    .min(1, { message: "Username is required!" })
+    .transform((val) => val.replace(/\s+/g, "").toLowerCase()),
 });
 
 

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { useAuth } from "@/Hooks";
@@ -51,6 +51,7 @@ const Passcode = () => {
   if (!currentUser) {
     return <Navigate to={"/auth"} replace={true} />;
   }
+
   return (
     <>
       <AuthLayout>
@@ -69,10 +70,10 @@ const Passcode = () => {
                   <h3 className="text-xl font-bold capitalize bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
                     Hello, {user?.username}
                   </h3>
-                  <p className="text-muted text-sm">
+                  <p className="text-muted text-xs">
                     Enter your passcode to continue.
                   </p>
-                  <p className="text-muted text-sm">
+                  <p className="text-muted text-xs">
                     Not you?{" "}
                     <span
                       onClick={handleLogout}
@@ -111,6 +112,9 @@ const Passcode = () => {
               )}
             </button>
           </div>
+          <p className="mt-6 text-center underline text-xs font-semibold font-sora text-main ">
+            <Link to="/recovery">I forgot passcode 🙆‍♂️</Link>
+          </p>
         </form>
       </AuthLayout>
     </>

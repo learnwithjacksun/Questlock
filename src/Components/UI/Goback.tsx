@@ -17,7 +17,7 @@ const Goback = () => {
 
   return (
     <button onClick={handleBack} className="center">
-      <ArrowLeft size={20} />
+      <ArrowLeft size={24} />
     </button>
   );
 };

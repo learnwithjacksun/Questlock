@@ -81,7 +81,7 @@ const Header = () => {
               </div>
               <h3 className="text-lg font-medium capitalize">
                 Hi,{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-main to-purple-500">
+                <span className="bg-clip-text capitalize text-transparent bg-gradient-to-r from-main to-purple-500">
                   {user?.username}
                 </span>
               </h3>

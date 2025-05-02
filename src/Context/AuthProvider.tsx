@@ -108,7 +108,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await databases.updateDocument(DB, USERS, id, {
         passcode: data.passcode,
         question: validQuestion,
-        answer: data.answer,
+        answer: data.answer.toLocaleLowerCase(),
       });
       await getUser();
       navigate("/dashboard");

@@ -1,15 +1,25 @@
-import { ArrowLeft } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { ArrowLeft } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Goback = () => {
-    const navigate = useNavigate()
-  return (
-    <>
-    <button onClick={()=> navigate(-1)} className="center">
-        <ArrowLeft size={20}/>
-    </button>
-    </>
-  )
-}
+  const navigate = useNavigate();
+  const location = useLocation();
+  const authRoutes = ["/auth", "/verify", "/passcode", "/security"];
+  const isAuthRoute = authRoutes.includes(location.pathname);
 
-export default Goback
+  const handleBack = () => {
+    if (isAuthRoute) {
+      navigate("/");
+    } else {
+      navigate(-1);
+    }
+  };
+
+  return (
+    <button onClick={handleBack} className="center">
+      <ArrowLeft size={20} />
+    </button>
+  );
+};
+
+export default Goback;

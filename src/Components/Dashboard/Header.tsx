@@ -121,7 +121,7 @@ const Header = () => {
                     <input
                       type="text"
                       placeholder="Enter new username..."
-                      className="input w-full"
+                      className="input w-full lowercase"
                       {...register("name")}
                     />
                     {errors.name && (

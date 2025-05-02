@@ -13,6 +13,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     useState<Models.User<Models.Preferences> | null>(null);
   const [loading, setLoading] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
   const sendOTP = async (email: string) => {
@@ -133,6 +134,27 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const editName = async (name: string)=>{
+    setIsEditing(true)
+    if(!user){
+      throw Error("user Id not found")
+    }
+    try {
+      await databases.updateDocument(
+        DB, USERS, user?.$id, {
+          username: name
+        }
+      )
+
+      await getUser()
+    } catch (error) {
+      console.error("Error changing name:", error);
+      throw new Error("An error occurred. Please try again later.");
+    } finally{
+      setIsEditing(false)
+    }
+  }
+
  
 
   useEffect(() => {
@@ -161,6 +183,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loading,
     createSecurity,
     logout,
+    editName,
+    isEditing
   };
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

@@ -69,5 +69,7 @@ interface AuthContextType {
   isCheckingAuth: boolean;
   loading: boolean;
   createSecurity: (id: string, data: SecurityFormData) => Promise<void>;
-  logout: ()=> Promise<void>
+  logout: () => Promise<void>;
+  editName: (name: string) => Promise<void>;
+  isEditing: boolean;
 }
